@@ -17,13 +17,15 @@ const { Router } = require('express');
 const express=require('express');
 const router=express.Router();
 
+// this is admin/add-product  with get
 router.get('/add-product',(req,res,next)=>{
-    res.send('<form action="/product" method="POST"><label>Add product: </label> <input type="text" name="title"><br> <label>quantity: </label> <input type="number" name="quantity"> <br><button type="submit">Add Product</button> </form>')
+    res.send('<form action="/admin/add-product" method="POST"><label>Add product: </label> <input type="text" name="title"><br> <label>quantity: </label> <input type="number" name="quantity"> <br><button type="submit">Add Product</button> </form>')
 })
 
-router.post('/product',(req,res,next)=>{
+// this is admin/add-product  with post 
+router.post('/add-product',(req,res,next)=>{
     console.log(req.body);
-    res.redirect('/');//this will redirect from product page to home page
+    res.redirect('/shop/');//this will redirect from product page to home page
 })
 
 
