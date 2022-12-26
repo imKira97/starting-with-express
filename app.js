@@ -10,7 +10,7 @@ const app=express();
 
 
 /*
-//use() allows us to add a new middleware function . It accepts an array of so-called request handlers here and it has some other use case too
+/use() allows us to add a new middleware function . It accepts an array of so-called request handlers here and it has some other use case too
 app.use((request,response,next)=>{
     console.log('in the middleware ');
     next();
@@ -23,14 +23,14 @@ when we execute next() it pass to another middleware
 if we dont write next() it dies
 
 
-//the function which we have pass will be executed for every incoming request and this 
+/the function which we have pass will be executed for every incoming request and this 
 app.use((request,response,next)=>{
     console.log('in the another middleware ');
     /*
     send allows us to send a response 
     this allow us to attach a body which is of type any 
     send automatically sets header we dont have to write setHeader 
-    also we setHeader manually if we want to 
+    also we can  setHeader manually if we want to 
     
     response.send('<h1>Hello from express js response</h1>');
 
@@ -68,7 +68,15 @@ app.use('/add-product',(req,res,next)=>{
     res.send('<form action="/product" method="POST"><label>Add product: </label> <input type="text" name="title"><br> <label>quantity: </label> <input type="number" name="quantity"> <br><button type="submit">Add Product</button> </form>')
 })
 
-app.use('/product',(req,res,next)=>{
+/*
+instead of using app.use which will be triggered for both get and post method 
+
+we can also use app.get() or app.post() depending upon our need
+similarly we have app.delete(),put() and patch() 
+
+*/
+
+app.post('/product',(req,res,next)=>{
     console.log(req.body);
     /*
     before importing bodyParser we are getting undefined 
