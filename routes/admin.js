@@ -16,16 +16,22 @@ you can add middleware and HTTP method routes (such as get, put, post, and so on
 const { Router } = require('express');
 const express=require('express');
 const router=express.Router();
+const path=require('path');
+
+const rootDir=require('../util/path');
+
 
 // this is admin/add-product  with get
 router.get('/add-product',(req,res,next)=>{
-    res.send('<form action="/admin/add-product" method="POST"><label>Add product: </label> <input type="text" name="title"><br> <label>quantity: </label> <input type="number" name="quantity"> <br><button type="submit">Add Product</button> </form>')
+    //res.sendFile(path.join(__dirname,'../','views','addProduct.html'));
+    res.sendFile(path.join(rootDir,'views','addProduct.html'));
+    
 })
 
 // this is admin/add-product  with post 
 router.post('/add-product',(req,res,next)=>{
     console.log(req.body);
-    res.redirect('/shop/');//this will redirect from product page to home page
+    res.redirect('/');//this will redirect from product page to home page
 })
 
 
