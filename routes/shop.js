@@ -1,20 +1,11 @@
-//This is for user it can only see product
+const path = require('path');
 
-const express=require('express');
-const router=express.Router();
-const path=require('path');
-const rootDir=require('../util/path');
+const express = require('express');
 
-router.get('/',(req,res,next)=>{
-    /*
+const productController=require('../controller/products');
 
-    ../ because 
-    current file shop.js is present in routes folder hence dirname- routes
-    and shop.html is present in views so ../ will go 1 step back 
-    than views -> shop.html
-    */
-    //res.sendFile(path.join(__dirname,'../','views','shop.html'));
-    res.sendFile(path.join(rootDir,'views','shop.html'));
-})
+const router = express.Router();
 
-module.exports=router;
+router.get('/',productController.getProducts);
+
+module.exports = router;

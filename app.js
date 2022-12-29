@@ -1,36 +1,24 @@
-// const http=require('http'); no need when doing app.listen()
-const express=require('express');
+const path = require('path');
 
-const bodyPraser=require('body-parser');
-const app=express();
-const path=require('path')
+const express = require('express');
+const bodyParser = require('body-parser');
 
-//importing admin page
-const adminRoutes=require('./routes/admin');
-const userRoutes=require('./routes/shop');
-const contactUs=require('./routes/contact');
-const { dirname } = require('path');
+const app = express();
 
+app.set('view engine', 'ejs');
+app.set('views', 'views');
 
-app.use(bodyPraser.urlencoded({extended:false}));
+const adminRoutes = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
 
-app.use(express.static(path.join(__dirname,'public')));
-/*
-above code statically add css file into our code
-*/
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(contactUs);
-app.use('/admin',adminRoutes);
-app.use(userRoutes);
+app.use('/admin', adminRoutes);
+app.use(shopRoutes);
 
-app.use((req,res,next)=>{
-    res.status(404).sendFile(path.join(__dirname,'views','pageNotFound.html'));
-})
+app.use((req, res, next) => {
+  res.status(404).render('404', { pageTitle: 'Page Not Found' });
+});
 
-
-
-
-// const server=http.createServer(app);
-// server.listen(5000);
-//does same work as above
-app.listen(5000);
+app.listen(3000);
