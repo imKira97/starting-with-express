@@ -10,6 +10,13 @@ router.get('/', shopController.getIndex);
 
 router.get('/products', shopController.getProducts);
 
+
+// we can  tell express router there will be variable  segment by adding :
+//this signals to express that it should not look for route like /products/productsId
+//but instead that this part here can be anything and it will simply route or load this route for this path 
+//then and we will then be able to extract that information through that name(in our case productId)
+router.get('/products/:productId', shopController.getProduct);
+
 router.get('/cart', shopController.getCart);
 
 router.get('/orders', shopController.getOrders);
