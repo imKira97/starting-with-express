@@ -28,9 +28,14 @@
                                 </div>
                                 <div class="card__actions">
                                     <a href="/products/<%= product.id %>" class="btn">Details </a>
-                                    <form action="/add-to-cart" method="POST">
-                                        <button class="btn">Add to Cart</button>
-                                    </form>
+
+                                    <!--
+                                        Here if we just include our add-to-cart file we will get reference error because 
+                                        product is local variable for the loop hence our include doesnt get product varible by default 
+
+                                        but we can pass it using second argument in include
+                                    -->
+                                    <%- include('../includes/add-to-cart.ejs',{product:product})%>
                                 </div>
                             </article>
                             <% } %>
