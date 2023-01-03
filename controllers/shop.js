@@ -1,5 +1,5 @@
 const Product = require('../models/product');
-const Cart=require('../models/cart')
+const Cart = require('../models/cart');
 
 exports.getProducts = (req, res, next) => {
   Product.fetchAll(products => {
@@ -10,17 +10,16 @@ exports.getProducts = (req, res, next) => {
     });
   });
 };
-//for details
+
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
-  Product.findById(prodId,(product)=>{
-    res.render('shop/product-detail',{
-      product:product,
-      pageTitle:product.pageTitle,
-      path:'/products'
-    })
-  })
-
+  Product.findById(prodId, product => {
+    res.render('shop/product-detail', {
+      product: product,
+      pageTitle: product.title,
+      path: '/products'
+    });
+  });
 };
 
 exports.getIndex = (req, res, next) => {
@@ -34,23 +33,40 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  res.render('shop/cart', {
-    path: '/cart',
-    pageTitle: 'Your Cart'
+  Cart.getCart(cart => {
+    Product.fetchAll(products => {
+      const cartProducts = [];
+      for (product of products) {
+        const cartProductData = cart.products.find(
+          prod => prod.id === product.id
+        );
+        if (cartProductData) {
+          cartProducts.push({ productData: product, qty: cartProductData.qty });
+        }
+      }
+      res.render('shop/cart', {
+        path: '/cart',
+        pageTitle: 'Your Cart',
+        products: cartProducts
+      });
+    });
   });
 };
 
-//to add into cart
-//here we fetch product data from product id we are getting from req
-exports.postCart=(req,res,next)=>{
-  const prodId=req.body.productId;//productId is the name we have given to hidden field of add cart
-  Product.findById(prodId,(product)=>{
-    Cart.addProduct(prodId,product.price);
-
-  })
-  console.log(prodId);  
+exports.postCart = (req, res, next) => {
+  const prodId = req.body.productId;
+  Product.findById(prodId, product => {
+    Cart.addProduct(prodId, product.price);
+  });
   res.redirect('/cart');
+};
 
+exports.postCartDeleteProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+  Product.findById(prodId, product => {
+    Cart.deleteProduct(prodId, product.price);
+    res.redirect('/cart');
+  });
 };
 
 exports.getOrders = (req, res, next) => {
